@@ -18,6 +18,15 @@
 
 
     <!--配置securityManager-->
+
+    <!---->
+    <!---->
+    <!---->
+    <!--这是核心-->
+    <!---->
+    <!---->
+    <!---->
+
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="cacheManager" ref="cacheManager"/>
         <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
@@ -46,6 +55,12 @@
 
     <!--配置realm-->
     <bean id="myRealm" class="com.springshiro.realm.MyRealm">
+        <!--md5-->
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="MD5"/>
+            </bean>
+        </property>
     </bean>
 
     <!-- =========================================================
@@ -100,6 +115,8 @@ id必须和web.xml中配置的org.springframework.web.filter.DelegatingFilterPro
             <value>
                 /login = anon
                 /lgin.html = anon
+                /user = roles[user]
+                /admin = roles[admin]
                 # allow WebStart to pull the jars for the swing app:
                 <!--/*.jar = anon-->
                 # everything else requires authentication:
